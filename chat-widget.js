@@ -1200,10 +1200,7 @@
     }
 
     function removeExtraEmptyLines(str) {
-    return (str || "")
-        .replace(/\n{3,}/g, '\n\n') // No more than 1 blank line
-        .replace(/^\s*[\r\n]/gm, '') // Remove all single empty lines
-        .trim();
+        return (str || "").replace(/\n{3,}/g, '\n\n').replace(/^\s*[\r\n]/gm, '').trim();
     }
 
 
