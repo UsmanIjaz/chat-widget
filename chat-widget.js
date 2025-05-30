@@ -1123,13 +1123,19 @@
 
     // Function to convert URLs in text to clickable links
     function renderMarkdown(text) {
-    if (window.snarkdown) {
-        return window.snarkdown(text || "");
-    } else {
-        // fallback to plain text if snarkdown is not loaded
-        return (text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        if (window.marked) {
+            const dirty = window.marked.parse(text || "");
+            // Use DOMPurify to sanitize the output if it's available
+            if (window.DOMPurify) {
+                return window.DOMPurify.sanitize(dirty);
+            }
+            return dirty;
+        } else {
+            // fallback to plain text if marked is not loaded
+            return (text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
     }
-}
+
 
 
 
