@@ -704,8 +704,8 @@
 /* Ordered and unordered lists styling - improved */
 .chat-assist-widget .chat-bubble-content ol,
 .chat-assist-widget .chat-bubble-content ul {
-    margin-left: 0.1em;
-    padding-left: 0.1em;
+    margin-left: 1.25em;
+    padding-left: 1.5em;
     margin-bottom: 0.1em;
     background: none !important;
     font-family: inherit !important;
@@ -767,6 +767,46 @@
 .chat-assist-widget .chat-bubble-content i {
     font-style: italic;
 }
+
+/* Tighter vertical spacing for all content in chat bubbles */
+.chat-assist-widget .chat-bubble-content p,
+.chat-assist-widget .chat-bubble-content ul,
+.chat-assist-widget .chat-bubble-content ol,
+.chat-assist-widget .chat-bubble-content li,
+.chat-assist-widget .chat-bubble-content h1,
+.chat-assist-widget .chat-bubble-content h2,
+.chat-assist-widget .chat-bubble-content h3,
+.chat-assist-widget .chat-bubble-content h4,
+.chat-assist-widget .chat-bubble-content h5,
+.chat-assist-widget .chat-bubble-content h6 {
+  margin-top: 0.2em !important;
+  margin-bottom: 0.25em !important;
+  padding: 0 !important;
+}
+
+.chat-assist-widget .chat-bubble-content ul,
+.chat-assist-widget .chat-bubble-content ol {
+  margin-left: 1em !important;
+  padding-left: 1.2em !important;
+}
+
+.chat-assist-widget .chat-bubble-content li {
+  margin-bottom: 0.08em !important;
+  padding: 0 !important;
+  list-style-position: inside;
+}
+
+.chat-assist-widget .chat-bubble-content {
+  line-height: 1.5;
+}
+
+/* (Optional) Slightly smaller font for lists, if needed */
+.chat-assist-widget .chat-bubble-content ul,
+.chat-assist-widget .chat-bubble-content ol,
+.chat-assist-widget .chat-bubble-content li {
+  font-size: 14px !important;
+}
+
 
     `;
     document.head.appendChild(widgetStyles);
