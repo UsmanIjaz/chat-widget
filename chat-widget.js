@@ -1317,83 +1317,85 @@
     }
 
     // Send a message to the webhook
-    async function submitMessage(messageText) {
-        if (isWaitingForResponse) return;
-        
-        // Validate webhook URL
-        if (!settings.webhook?.url) {
-            console.error('Webhook URL is not configured');
-            addMessage("Sorry, the chat service is not properly configured. Please contact support.", 'bot');
-            return;
-        }
+async function submitMessage(messageText) {
+    if (isWaitingForResponse) return;
 
-        isWaitingForResponse = true;
-        
-        // Get user info if available
-        const email = nameInput ? nameInput.value.trim() : "";
-        const name = emailInput ? emailInput.value.trim() : "";
-        
-        const requestData = {
-            action: "sendMessage",
-            sessionId: conversationId,
-            route: settings.webhook.route,
-            chatInput: messageText,
-            metadata: {
-                userId: email,
-                userName: name
-            }
-        };
-
-        // Display user message
-        addMessage(messageText, 'user');
-        
-        // Show typing indicator
-        const typingIndicator = createTypingIndicator();
-        messagesContainer.appendChild(typingIndicator);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-        try {
-            const response = await fetch(settings.webhook.url, {
-+                method: 'POST',
-+                headers: { 'Content-Type': 'application/json' },
-+                body: JSON.stringify(requestData)
-+            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const responseData = await response.json();
-            
-            // Remove typing indicator if it exists
-            const typingIndicator = document.querySelector('.typing-indicator');
-            if (typingIndicator && typingIndicator.parentNode === messagesContainer) {
-                messagesContainer.removeChild(typingIndicator);
-            }
-            
-            // Display bot response
-            const responseText = Array.isArray(responseData) ? responseData[0].output : responseData.output;
-            addMessage(responseText, 'bot');
-            
-        } catch (error) {
-            console.error('Message submission error:', error);
-            
-            // Remove typing indicator if it exists
-            const typingIndicator = document.querySelector('.typing-indicator');
-            if (typingIndicator && typingIndicator.parentNode === messagesContainer) {
-                messagesContainer.removeChild(typingIndicator);
-            }
-            
-            // Show appropriate error message based on error type
-            if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
-                addMessage("Sorry, I'm having trouble connecting to the server. Please check your internet connection and try again.", 'bot');
-            } else {
-                addMessage("Sorry, I'm having trouble processing your message. Please try again later.", 'bot');
-            }
-        } finally {
-            isWaitingForResponse = false;
-        }
+    // Validate webhook URL
+    if (!settings.webhook?.url) {
+        console.error('Webhook URL is not configured');
+        addMessage("Sorry, the chat service is not properly configured. Please contact support.", 'bot');
+        return;
     }
+
+    isWaitingForResponse = true;
+
+    // Get user info if available
+    const email = nameInput ? nameInput.value.trim() : "";
+    const name = emailInput ? emailInput.value.trim() : "";
+
+    const requestData = {
+        action: "sendMessage",
+        sessionId: conversationId,   // <--- THIS IS CRUCIAL!
+        route: settings.webhook.route,
+        chatInput: messageText,
+        metadata: {
+            userId: email,
+            userName: name
+        }
+    };
+
+    // Display user message
+    addMessage(messageText, 'user');
+
+    // Show typing indicator
+    const typingIndicator = createTypingIndicator();
+    messagesContainer.appendChild(typingIndicator);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    try {
+        const response = await fetch(settings.webhook.url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData)   // <--- FIXED!
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+
+        // Remove typing indicator if it exists
+        const typingIndicator = document.querySelector('.typing-indicator');
+        if (typingIndicator && typingIndicator.parentNode === messagesContainer) {
+            messagesContainer.removeChild(typingIndicator);
+        }
+
+        // Display bot response
+        const responseText = Array.isArray(responseData) ? responseData[0].output : responseData.output;
+        addMessage(responseText, 'bot');
+
+    } catch (error) {
+        console.error('Message submission error:', error);
+
+        // Remove typing indicator if it exists
+        const typingIndicator = document.querySelector('.typing-indicator');
+        if (typingIndicator && typingIndicator.parentNode === messagesContainer) {
+            messagesContainer.removeChild(typingIndicator);
+        }
+
+        // Show appropriate error message based on error type
+        if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+            addMessage("Sorry, I'm having trouble connecting to the server. Please check your internet connection and try again.", 'bot');
+        } else {
+            addMessage("Sorry, I'm having trouble processing your message. Please try again later.", 'bot');
+        }
+    } finally {
+        isWaitingForResponse = false;
+    }
+}
 
     // Auto-resize textarea as user types
     function autoResizeTextarea() {
