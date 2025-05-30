@@ -1169,6 +1169,17 @@
         return html.replace(/<p>(\s|&nbsp;)*<\/p>/g, '').replace(/<br\s*\/?>/g, '').replace(/(\n\s*){2,}/g, '\n'); 
     }
 
+    function cleanEmptyElements(html) {
+        // Remove <p> that are empty or only whitespace
+        html = html.replace(/<p>(\s|&nbsp;)*<\/p>/gi, '');
+        // Remove <br> tags
+        html = html.replace(/<br\s*\/?>/gi, '');
+        // Remove leading/trailing whitespace in <li>
+        html = html.replace(/<li>([\s\S]*?)<\/li>/gi, function(match, content) {
+            return `<li>${content.trim()}</li>`;
+        });
+        return html;
+    }
 
     // Function to convert URLs in text to clickable links
     function renderMarkdown(text) {
@@ -1278,7 +1289,7 @@
         // Create content container
         const content = document.createElement('div');
         content.className = 'chat-bubble-content';
-        content.innerHTML = renderMarkdown(text);
+        content.innerHTML = cleanEmptyElements(renderMarkdown(text));
 
         // Ensure all links get .chat-link styling
         Array.from(content.querySelectorAll('a')).forEach(a => a.classList.add('chat-link'));
@@ -1406,7 +1417,7 @@
             botMessage.className = 'chat-bubble bot-bubble';
             const messageText = Array.isArray(userInfoResponseData) ? 
                 userInfoResponseData[0].output : userInfoResponseData.output;
-            botMessage.innerHTML = renderMarkdown(messageText);
+            botMessage.innerHTML = cleanEmptyElements(renderMarkdown(messageText));
             
             // Add copy button
             const copyButton = createCopyButton(messageText);
