@@ -1165,20 +1165,26 @@
         return indicator;
     }
 
+    function cleanEmptyParagraphsAndBreaks(html) {
+        return html.replace(/<p>(\s|&nbsp;)*<\/p>/g, '').replace(/<br\s*\/?>/g, '').replace(/(\n\s*){2,}/g, '\n'); 
+    }
+
+
     // Function to convert URLs in text to clickable links
     function renderMarkdown(text) {
-        if (window.marked) {
-            const dirty = window.marked.parse(text || "");
-            // Use DOMPurify to sanitize the output if it's available
-            if (window.DOMPurify) {
-                return window.DOMPurify.sanitize(dirty);
-            }
-            return dirty;
-        } else {
-            // fallback to plain text if marked is not loaded
-            return (text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    if (window.marked) {
+        let dirty = window.marked.parse(text || "");
+        // Use DOMPurify to sanitize the output if it's available
+        if (window.DOMPurify) {
+            dirty = window.DOMPurify.sanitize(dirty);
         }
+        // Clean up after rendering
+        return cleanEmptyParagraphsAndBreaks(dirty);
+    } else {
+        return (text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
+}
+
 
 
 
@@ -1272,7 +1278,7 @@
         // Create content container
         const content = document.createElement('div');
         content.className = 'chat-bubble-content';
-        content.innerHTML = renderMarkdown(removeExtraEmptyLines(text));
+        content.innerHTML = renderMarkdown(text);
 
         // Ensure all links get .chat-link styling
         Array.from(content.querySelectorAll('a')).forEach(a => a.classList.add('chat-link'));
@@ -1400,7 +1406,7 @@
             botMessage.className = 'chat-bubble bot-bubble';
             const messageText = Array.isArray(userInfoResponseData) ? 
                 userInfoResponseData[0].output : userInfoResponseData.output;
-            botMessage.innerHTML = renderMarkdown(removeExtraEmptyLines(messageText));
+            botMessage.innerHTML = renderMarkdown(messageText);
             
             // Add copy button
             const copyButton = createCopyButton(messageText);
