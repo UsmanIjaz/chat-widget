@@ -1354,19 +1354,10 @@
 
         try {
             const response = await fetch(settings.webhook.url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: messageText,
-                    route: settings.webhook.route,
-                    user: {
-                        name: name,
-                        email: email
-                    }
-                })
-            });
++                method: 'POST',
++                headers: { 'Content-Type': 'application/json' },
++                body: JSON.stringify(requestData)
++            });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
