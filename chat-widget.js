@@ -701,54 +701,49 @@
     /* Add padding or adjust as needed */
 }
 
-/* Ordered and unordered lists styling */
+/* Ordered and unordered lists styling - improved */
 .chat-assist-widget .chat-bubble-content ol,
 .chat-assist-widget .chat-bubble-content ul {
     margin-left: 1.25em;
     padding-left: 1.5em;
     margin-bottom: 0.7em;
+    background: none !important;
+    font-family: inherit !important;
+    font-size: 14px;
+    color: inherit;
 }
 
 .chat-assist-widget .chat-bubble-content li {
     margin-bottom: 0.2em;
     line-height: 1.6;
+    background: none !important;
+    font-family: inherit !important;
+    color: inherit;
+    font-size: 14px;
 }
 
-/* Use normal decimal numbers for ordered lists */
-.chat-assist-widget .chat-bubble-content ol {
-    list-style-type: decimal;
+/* Remove unwanted code styling from lists */
+.chat-assist-widget .chat-bubble-content ol code,
+.chat-assist-widget .chat-bubble-content ul code {
+    background: none !important;
+    color: inherit !important;
+    font-family: inherit !important;
+    padding: 0 !important;
 }
 
-/* Use standard disc bullets for unordered lists */
-.chat-assist-widget .chat-bubble-content ul {
-    list-style-type: disc;
-}
-
-/* Markdown link styles */
-.chat-assist-widget .chat-bubble-content a {
-    color: var(--chat-color-primary, #10b981);
-    text-decoration: underline;
-    word-break: break-all;
-    transition: color 0.2s;
-}
-
-.chat-assist-widget .chat-bubble-content a:hover {
-    color: var(--chat-color-secondary, #059669);
-}
-
-/* Code blocks and inline code */
+/* Only code blocks and inline code get monospaced look */
 .chat-assist-widget .chat-bubble-content pre,
-.chat-assist-widget .chat-bubble-content code {
+.chat-assist-widget .chat-bubble-content code:not(li code) {
     background: #f3f4f6;
     color: #0f172a;
+    font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
     padding: 3px 6px;
     border-radius: 6px;
-    font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
     font-size: 13px;
-    overflow-x: auto;
-    display: block;
     margin: 8px 0;
+    overflow-x: auto;
     white-space: pre-wrap;
+    display: block;
 }
 
 /* Inline code should not break layout */
