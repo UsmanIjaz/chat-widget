@@ -693,6 +693,82 @@
 
             }
         }
+
+        /* MARKDOWN SUPPORT FOR CHAT BUBBLES */
+.chat-assist-widget .chat-bubble-content {
+    word-break: break-word;
+    white-space: pre-line;
+    /* Add padding or adjust as needed */
+}
+
+/* Ordered and unordered lists styling */
+.chat-assist-widget .chat-bubble-content ol,
+.chat-assist-widget .chat-bubble-content ul {
+    margin-left: 1.25em;
+    padding-left: 1.5em;
+    margin-bottom: 0.7em;
+}
+
+.chat-assist-widget .chat-bubble-content li {
+    margin-bottom: 0.2em;
+    line-height: 1.6;
+}
+
+/* Use normal decimal numbers for ordered lists */
+.chat-assist-widget .chat-bubble-content ol {
+    list-style-type: decimal;
+}
+
+/* Use standard disc bullets for unordered lists */
+.chat-assist-widget .chat-bubble-content ul {
+    list-style-type: disc;
+}
+
+/* Markdown link styles */
+.chat-assist-widget .chat-bubble-content a {
+    color: var(--chat-color-primary, #10b981);
+    text-decoration: underline;
+    word-break: break-all;
+    transition: color 0.2s;
+}
+
+.chat-assist-widget .chat-bubble-content a:hover {
+    color: var(--chat-color-secondary, #059669);
+}
+
+/* Code blocks and inline code */
+.chat-assist-widget .chat-bubble-content pre,
+.chat-assist-widget .chat-bubble-content code {
+    background: #f3f4f6;
+    color: #0f172a;
+    padding: 3px 6px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+    font-size: 13px;
+    overflow-x: auto;
+    display: block;
+    margin: 8px 0;
+    white-space: pre-wrap;
+}
+
+/* Inline code should not break layout */
+.chat-assist-widget .chat-bubble-content code {
+    display: inline;
+    margin: 0 2px;
+    padding: 2px 5px;
+}
+
+/* Bold and italic text */
+.chat-assist-widget .chat-bubble-content strong,
+.chat-assist-widget .chat-bubble-content b {
+    font-weight: 700;
+}
+
+.chat-assist-widget .chat-bubble-content em,
+.chat-assist-widget .chat-bubble-content i {
+    font-style: italic;
+}
+
     `;
     document.head.appendChild(widgetStyles);
 
