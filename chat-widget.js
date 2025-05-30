@@ -1051,15 +1051,15 @@
     }
 
     // Function to convert URLs in text to clickable links
-    function linkifyText(text) {
-        // URL pattern that matches http, https, ftp links
-        const urlPattern = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-        
-        // Convert URLs to HTML links
-        return text.replace(urlPattern, function(url) {
-            return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="chat-link">${url}</a>`;
-        });
+    function renderMarkdown(text) {
+    if (window.snarkdown) {
+        return window.snarkdown(text || "");
+    } else {
+        // fallback to plain text if snarkdown is not loaded
+        return (text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
+}
+
 
     // Show registration form
     function showRegistrationForm() {
@@ -1143,7 +1143,7 @@
         // Create content container
         const content = document.createElement('div');
         content.className = 'chat-bubble-content';
-        content.innerHTML = linkifyText(text);
+        content.innerHTML = renderMarkdown(text);
         
         // Create actions container
         const actions = document.createElement('div');
@@ -1267,7 +1267,7 @@
             botMessage.className = 'chat-bubble bot-bubble';
             const messageText = Array.isArray(userInfoResponseData) ? 
                 userInfoResponseData[0].output : userInfoResponseData.output;
-            botMessage.innerHTML = linkifyText(messageText);
+            botMessage.innerHTML = renderMarkdown(messageText);
             
             // Add copy button
             const copyButton = createCopyButton(messageText);
