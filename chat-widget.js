@@ -1144,6 +1144,10 @@
         const content = document.createElement('div');
         content.className = 'chat-bubble-content';
         content.innerHTML = renderMarkdown(text);
+
+        // Ensure all links get .chat-link styling
+        Array.from(content.querySelectorAll('a')).forEach(a => a.classList.add('chat-link'));
+
         
         // Create actions container
         const actions = document.createElement('div');
