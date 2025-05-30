@@ -1289,7 +1289,7 @@
         // Create content container
         const content = document.createElement('div');
         content.className = 'chat-bubble-content';
-        content.innerHTML = cleanEmptyElements(renderMarkdown(text));
+        content.innerHTML = renderMarkdown(text);
 
         // Ensure all links get .chat-link styling
         Array.from(content.querySelectorAll('a')).forEach(a => a.classList.add('chat-link'));
@@ -1417,7 +1417,7 @@
             botMessage.className = 'chat-bubble bot-bubble';
             const messageText = Array.isArray(userInfoResponseData) ? 
                 userInfoResponseData[0].output : userInfoResponseData.output;
-            botMessage.innerHTML = cleanEmptyElements(renderMarkdown(messageText));
+            botMessage.innerHTML = renderMarkdown(messageText);
             
             // Add copy button
             const copyButton = createCopyButton(messageText);
