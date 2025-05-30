@@ -704,9 +704,7 @@
 /* Ordered and unordered lists styling - improved */
 .chat-assist-widget .chat-bubble-content ol,
 .chat-assist-widget .chat-bubble-content ul {
-    margin-left: 1.25em;
-    padding-left: 1.5em;
-    margin-bottom: 0.7em;
+
     background: none !important;
     font-family: inherit !important;
     font-size: 14px;
