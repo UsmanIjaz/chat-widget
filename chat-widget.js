@@ -1122,15 +1122,19 @@
     }
 
     // Function to convert URLs in text to clickable links
-    function renderMarkdown(text) {
-    if (window.marked) {
-        // Use marked to parse markdown if available
+function renderMarkdown(text) {
+    if (window.marked && window.DOMPurify) {
+        // Parse markdown and sanitize the HTML
+        return window.DOMPurify.sanitize(window.marked(text || ""));
+    } else if (window.marked) {
+        // Just parse, no sanitization (not recommended)
         return window.marked(text || "");
     } else {
-        // Fallback to plain text if marked is not loaded
+        // Fallback to escaping HTML
         return (text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 }
+
 
 
 
