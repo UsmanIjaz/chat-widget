@@ -1199,6 +1199,14 @@
         if (chatBody) chatBody.classList.add('active');
     }
 
+    function removeExtraEmptyLines(str) {
+    return (str || "")
+        .replace(/\n{3,}/g, '\n\n') // No more than 1 blank line
+        .replace(/^\s*[\r\n]/gm, '') // Remove all single empty lines
+        .trim();
+    }
+
+
     // Validate email format
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1267,7 +1275,7 @@
         // Create content container
         const content = document.createElement('div');
         content.className = 'chat-bubble-content';
-        content.innerHTML = renderMarkdown(text);
+        content.innerHTML = renderMarkdown(removeExtraEmptyLines(text));
 
         // Ensure all links get .chat-link styling
         Array.from(content.querySelectorAll('a')).forEach(a => a.classList.add('chat-link'));
@@ -1395,7 +1403,7 @@
             botMessage.className = 'chat-bubble bot-bubble';
             const messageText = Array.isArray(userInfoResponseData) ? 
                 userInfoResponseData[0].output : userInfoResponseData.output;
-            botMessage.innerHTML = renderMarkdown(messageText);
+            botMessage.innerHTML = renderMarkdown(removeExtraEmptyLines(text));
             
             // Add copy button
             const copyButton = createCopyButton(messageText);
