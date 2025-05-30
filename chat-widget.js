@@ -704,17 +704,21 @@
 /* Ordered and unordered lists styling - improved */
 .chat-assist-widget .chat-bubble-content ol,
 .chat-assist-widget .chat-bubble-content ul {
-    margin-left: 1.25em;
-    padding-left: 1.5em;
-    margin-bottom: 0.7em;
+    margin-left: 0.1em;
+    padding-left: 0.1em;
+    margin-bottom: 0.1em;
     background: none !important;
     font-family: inherit !important;
     font-size: 14px;
     color: inherit;
 }
 
-.chat-assist-widget .chat-bubble-content li {
+.chat-assist-widget .chat-bubble-content p {
     margin-bottom: 0.2em;
+}
+
+.chat-assist-widget .chat-bubble-content li {
+    margin-bottom: 0.05em;
     line-height: 1.6;
     background: none !important;
     font-family: inherit !important;
