@@ -1400,7 +1400,7 @@
             botMessage.className = 'chat-bubble bot-bubble';
             const messageText = Array.isArray(userInfoResponseData) ? 
                 userInfoResponseData[0].output : userInfoResponseData.output;
-            botMessage.innerHTML = renderMarkdown(removeExtraEmptyLines(text));
+            botMessage.innerHTML = renderMarkdown(removeExtraEmptyLines(messageText));
             
             // Add copy button
             const copyButton = createCopyButton(messageText);
