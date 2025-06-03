@@ -683,7 +683,7 @@
         .chat-assist-widget .chat-avatar-row {
             display: flex;
             align-items: center;
-            margin-bottom: 2px; /* space between avatar row and bubble */
+            margin-bottom: 6px; /* space between avatar row and bubble */
         }
         
         .chat-assist-widget .chat-avatar {
