@@ -665,6 +665,11 @@
             transform: none;
         }
 
+        .chat-assist-widget ul ul,
+        .chat-assist-widget ol ol {
+            list-style-type: disc !important;
+        }
+
         @media (max-width: 768px) {
             .chat-assist-widget .chat-window {
                 width: 100%;
