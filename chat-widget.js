@@ -4,10 +4,11 @@
     if (window.N8nChatWidgetLoaded) return;
     window.N8nChatWidgetLoaded = true;
 
-    // Load font resource - using Poppins for a fresh look
+    // Dynamically load font from config (default: Red Hat Display)
+    const fontFamily = (window.ChatWidgetConfig?.style?.fontFamily || 'Poppins').replace(/\s+/g, '+');
     const fontElement = document.createElement('link');
     fontElement.rel = 'stylesheet';
-    fontElement.href = 'https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap';
+    fontElement.href = `https://fonts.googleapis.com/css2?family=${fontFamily}:wght@400;500;600;700&display=swap`;
     document.head.appendChild(fontElement);
 
     // Apply widget styles with completely different design approach
@@ -30,7 +31,7 @@
             --chat-radius-lg: 20px;
             --chat-radius-full: 9999px;
             --chat-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: 'Red Hat Display', sans-serif;
+            font-family: '${window.ChatWidgetConfig?.style?.fontFamily || 'Poppins'}', sans-serif;
         }
 
         .chat-assist-widget .chat-window {
