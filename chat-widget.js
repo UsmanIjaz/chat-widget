@@ -680,11 +680,26 @@
             list-style-type: decimal !important;
         }
 
+        .chat-assist-widget .chat-avatar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2px; /* space between avatar row and bubble */
+        }
+        
+        .chat-assist-widget .chat-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            /* margin-bottom: 8px; -- REMOVE this if you had it, to avoid vertical gap */
+            margin-bottom: 0;
+        }
+        
         .chat-assist-widget .chat-avatar-name {
             margin-left: 8px;
             font-weight: bold;
             color: var(--chat-color-text);
-            align-self: center;
             font-size: 13px;
             line-height: 1;
             display: inline-block;
@@ -1193,19 +1208,23 @@
         
         // Add avatar for bot messages if enabled
         if (type === 'bot' && settings.chat?.avatar?.enabled) {
+            const avatarRow = document.createElement('div');
+            avatarRow.className = 'chat-avatar-row';
+        
             const avatar = document.createElement('img');
             avatar.className = 'chat-avatar';
             avatar.src = settings.chat.avatar.url;
             avatar.alt = settings.chat.avatar.name;
-            messageContainer.appendChild(avatar);
+            avatarRow.appendChild(avatar);
         
-            // Add bot name next to avatar if available
             if (settings.chat.avatar.name) {
                 const nameSpan = document.createElement('span');
                 nameSpan.className = 'chat-avatar-name';
                 nameSpan.textContent = settings.chat.avatar.name;
-                messageContainer.appendChild(nameSpan);
+                avatarRow.appendChild(nameSpan);
             }
+        
+            messageContainer.appendChild(avatarRow);
         }
         
         const message = document.createElement('div');
