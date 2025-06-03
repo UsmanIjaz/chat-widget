@@ -241,7 +241,6 @@
             font-size: 14px;
             line-height: 1.6;
             position: relative;
-            white-space: pre-line;
             display: block;
         }
 
