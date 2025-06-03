@@ -108,7 +108,7 @@
             height: 32px;
             border-radius: var(--chat-radius-sm);
             object-fit: contain;
-            background: white;
+            background: var(--chat-color-surface);
             padding: 4px;
         }
 
@@ -214,7 +214,7 @@
             flex: 1;
             overflow-y: auto;
             padding: 20px;
-            background: #f9fafb;
+            background: var(--chat-color-surface);
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -366,7 +366,7 @@
             align-items: center;
             gap: 4px;
             padding: 14px 18px;
-            background: white;
+            background: var(--chat-color-surface);
             border-radius: var(--chat-radius-md);
             border-bottom-left-radius: 4px;
             max-width: 80px;
@@ -408,7 +408,7 @@
         .chat-assist-widget .chat-controls {
             padding: 16px;
             background: var(--chat-color-surface);
-            border-top: 1px solid var(--chat-color-primary);
+            border-top: 1px solid var(--chat-color-surface);
             display: flex;
             gap: 10px;
             flex-shrink: 0;
