@@ -1515,7 +1515,7 @@ async function submitMessage(messageText) {
     registrationForm.addEventListener('submit', handleRegistration);
     }
 
-    function initializeChat() {
+        function initializeChat() {
         // First, hide all screens
         if (chatWelcome) chatWelcome.style.display = 'none';
         if (userRegistration) userRegistration.classList.remove('active');
@@ -1527,11 +1527,10 @@ async function submitMessage(messageText) {
             (!settings.initialScreens?.showWelcome && !settings.initialScreens?.showRegistration)
         ) {
             showChatInterface();
-            initializeSessionIfNeeded().then(() => {
-                if (settings.chat?.welcomeMessage) {
-                    addMessage(settings.chat.welcomeMessage, 'bot');
-                }
-            });
+            initializeSessionIfNeeded();
+            if (settings.chat?.welcomeMessage) {
+                addMessage(settings.chat.welcomeMessage, 'bot');
+            }
         } else if (settings.initialScreens?.showWelcome) {
             if (chatWelcome) {
                 chatWelcome.style.display = 'block';
@@ -1542,14 +1541,12 @@ async function submitMessage(messageText) {
             showRegistrationForm();
         } else {
             showChatInterface();
-            initializeSessionIfNeeded().then(() => {
-                if (settings.chat?.welcomeMessage) {
-                    addMessage(settings.chat.welcomeMessage, 'bot');
-                }
-            });
+            initializeSessionIfNeeded();
+            if (settings.chat?.welcomeMessage) {
+                addMessage(settings.chat.welcomeMessage, 'bot');
+            }
         }
     }
-
     // Initialize the chat
     initializeChat();
     
