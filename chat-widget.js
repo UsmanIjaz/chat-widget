@@ -1101,7 +1101,6 @@
 
     // Initialize session if not already started (for skipToChat or no welcome/registration)
     function initializeSessionIfNeeded() {
-        // Only generate a sessionId if not present, but DO NOT call webhook!
         if (!conversationId) {
             conversationId = createSessionId();
         }
