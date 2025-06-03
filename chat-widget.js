@@ -7,7 +7,7 @@
     // Load font resource - using Poppins for a fresh look
     const fontElement = document.createElement('link');
     fontElement.rel = 'stylesheet';
-    fontElement.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap';
+    fontElement.href = 'https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap';
     document.head.appendChild(fontElement);
 
     // Apply widget styles with completely different design approach
@@ -30,7 +30,7 @@
             --chat-radius-lg: 20px;
             --chat-radius-full: 9999px;
             --chat-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Red Hat Display', sans-serif;
         }
 
         .chat-assist-widget .chat-window {
@@ -1053,6 +1053,30 @@
         return crypto.randomUUID();
     }
 
+    // Initialize session if not already started (for skipToChat or no welcome/registration)
+    async function initializeSessionIfNeeded() {
+        if (!conversationId) {
+            conversationId = createSessionId();
+            const sessionData = [{
+                action: "loadPreviousSession",
+                sessionId: conversationId,
+                route: settings.webhook.route,
+                metadata: {}
+            }];
+            try {
+                await fetch(settings.webhook.url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(sessionData)
+                });
+            } catch (e) {
+                addMessage("Could not initialize chat session. Please try again later.", "bot");
+            }
+        }
+    }
+
     // Create typing indicator element
     function createTypingIndicator() {
         const indicator = document.createElement('div');
@@ -1450,20 +1474,23 @@ async function submitMessage(messageText) {
     registrationForm.addEventListener('submit', handleRegistration);
     }
 
-    // Initialize based on settings
     function initializeChat() {
         // First, hide all screens
         if (chatWelcome) chatWelcome.style.display = 'none';
         if (userRegistration) userRegistration.classList.remove('active');
         if (chatBody) chatBody.classList.remove('active');
-
-        // Then show the appropriate screen based on settings
-        if (settings.initialScreens?.skipToChat) {
+    
+        // Show the appropriate screen based on settings
+        if (
+            settings.initialScreens?.skipToChat ||
+            (!settings.initialScreens?.showWelcome && !settings.initialScreens?.showRegistration)
+        ) {
             showChatInterface();
-            // Display welcome message
-            if (settings.chat?.welcomeMessage) {
-                addMessage(settings.chat.welcomeMessage, 'bot');
-            }
+            initializeSessionIfNeeded().then(() => {
+                if (settings.chat?.welcomeMessage) {
+                    addMessage(settings.chat.welcomeMessage, 'bot');
+                }
+            });
         } else if (settings.initialScreens?.showWelcome) {
             if (chatWelcome) {
                 chatWelcome.style.display = 'block';
@@ -1474,10 +1501,11 @@ async function submitMessage(messageText) {
             showRegistrationForm();
         } else {
             showChatInterface();
-            // Display welcome message
-            if (settings.chat?.welcomeMessage) {
-                addMessage(settings.chat.welcomeMessage, 'bot');
-            }
+            initializeSessionIfNeeded().then(() => {
+                if (settings.chat?.welcomeMessage) {
+                    addMessage(settings.chat.welcomeMessage, 'bot');
+                }
+            });
         }
     }
 
