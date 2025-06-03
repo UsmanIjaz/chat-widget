@@ -680,6 +680,16 @@
             list-style-type: decimal !important;
         }
 
+        .chat-assist-widget .chat-avatar-name {
+            margin-left: 8px;
+            font-weight: bold;
+            color: var(--chat-color-text);
+            align-self: center;
+            font-size: 13px;
+            line-height: 1;
+            display: inline-block;
+        }
+
 
         @media (max-width: 768px) {
             .chat-assist-widget .chat-window {
@@ -1188,6 +1198,14 @@
             avatar.src = settings.chat.avatar.url;
             avatar.alt = settings.chat.avatar.name;
             messageContainer.appendChild(avatar);
+        
+            // Add bot name next to avatar if available
+            if (settings.chat.avatar.name) {
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'chat-avatar-name';
+                nameSpan.textContent = settings.chat.avatar.name;
+                messageContainer.appendChild(nameSpan);
+            }
         }
         
         const message = document.createElement('div');
