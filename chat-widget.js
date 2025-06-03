@@ -665,10 +665,20 @@
             transform: none;
         }
 
-        .chat-assist-widget ul ul,
-        .chat-assist-widget ol ol {
+        .chat-assist-widget ul,
+        .chat-assist-widget ol {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+        
+        .chat-assist-widget ul {
             list-style-type: disc !important;
         }
+        
+        .chat-assist-widget ol {
+            list-style-type: decimal !important;
+        }
+
 
         @media (max-width: 768px) {
             .chat-assist-widget .chat-window {
