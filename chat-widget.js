@@ -705,7 +705,27 @@
             display: inline-block;
         }
 
+        .chat-assist-widget .chat-bubble.bot-bubble .chat-link {
+          color: var(--chat-color-primary);
+          text-decoration: underline;
+          transition: var(--chat-transition);
+        }
 
+        .chat-assist-widget .chat-bubble.bot-bubble .chat-link:hover {
+          color: color-mix(in srgb, var(--chat-color-primary), black 20%);
+        }
+        
+        .chat-assist-widget .chat-bubble.user-bubble .chat-link {
+          color: var(--chat-color-surface); /* usually white */
+          text-decoration: underline;
+          transition: var(--chat-transition);
+        }
+        
+        .chat-assist-widget .chat-bubble.user-bubble .chat-link:hover {
+          color: color-mix(in srgb, var(--chat-color-surface), black 20%);
+        }
+
+        
         @media (max-width: 768px) {
             .chat-assist-widget .chat-window {
                 width: 100%;
