@@ -1100,26 +1100,10 @@
     }
 
     // Initialize session if not already started (for skipToChat or no welcome/registration)
-    async function initializeSessionIfNeeded() {
+    function initializeSessionIfNeeded() {
+        // Only generate a sessionId if not present, but DO NOT call webhook!
         if (!conversationId) {
             conversationId = createSessionId();
-            const sessionData = [{
-                action: "loadPreviousSession",
-                sessionId: conversationId,
-                route: settings.webhook.route,
-                metadata: {}
-            }];
-            try {
-                await fetch(settings.webhook.url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(sessionData)
-                });
-            } catch (e) {
-                addMessage("Could not initialize chat session. Please try again later.", "bot");
-            }
         }
     }
 
