@@ -694,120 +694,6 @@
             }
         }
 
-        /* MARKDOWN SUPPORT FOR CHAT BUBBLES */
-.chat-assist-widget .chat-bubble-content {
-    word-break: break-word;
-    white-space: pre-line;
-    /* Add padding or adjust as needed */
-}
-
-/* Ordered and unordered lists styling - improved */
-.chat-assist-widget .chat-bubble-content ol,
-.chat-assist-widget .chat-bubble-content ul {
-    margin-left: 1.25em;
-    padding-left: 1.5em;
-    margin-bottom: 0.1em;
-    background: none !important;
-    font-family: inherit !important;
-    font-size: 14px;
-    color: inherit;
-}
-
-.chat-assist-widget .chat-bubble-content p {
-    margin-bottom: 0.2em;
-}
-
-.chat-assist-widget .chat-bubble-content li {
-    margin-bottom: 0.05em;
-    line-height: 1.6;
-    background: none !important;
-    font-family: inherit !important;
-    color: inherit;
-    font-size: 14px;
-}
-
-/* Remove unwanted code styling from lists */
-.chat-assist-widget .chat-bubble-content ol code,
-.chat-assist-widget .chat-bubble-content ul code {
-    background: none !important;
-    color: inherit !important;
-    font-family: inherit !important;
-    padding: 0 !important;
-}
-
-/* Only code blocks and inline code get monospaced look */
-.chat-assist-widget .chat-bubble-content pre,
-.chat-assist-widget .chat-bubble-content code:not(li code) {
-    background: #f3f4f6;
-    color: #0f172a;
-    font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
-    padding: 3px 6px;
-    border-radius: 6px;
-    font-size: 13px;
-    margin: 8px 0;
-    overflow-x: auto;
-    white-space: pre-wrap;
-    display: block;
-}
-
-/* Inline code should not break layout */
-.chat-assist-widget .chat-bubble-content code {
-    display: inline;
-    margin: 0 2px;
-    padding: 2px 5px;
-}
-
-/* Bold and italic text */
-.chat-assist-widget .chat-bubble-content strong,
-.chat-assist-widget .chat-bubble-content b {
-    font-weight: 700;
-}
-
-.chat-assist-widget .chat-bubble-content em,
-.chat-assist-widget .chat-bubble-content i {
-    font-style: italic;
-}
-
-/* Tighter vertical spacing for all content in chat bubbles */
-.chat-assist-widget .chat-bubble-content p,
-.chat-assist-widget .chat-bubble-content ul,
-.chat-assist-widget .chat-bubble-content ol,
-.chat-assist-widget .chat-bubble-content li,
-.chat-assist-widget .chat-bubble-content h1,
-.chat-assist-widget .chat-bubble-content h2,
-.chat-assist-widget .chat-bubble-content h3,
-.chat-assist-widget .chat-bubble-content h4,
-.chat-assist-widget .chat-bubble-content h5,
-.chat-assist-widget .chat-bubble-content h6 {
-  margin-top: 0.2em !important;
-  margin-bottom: 0.25em !important;
-  padding: 0 !important;
-}
-
-.chat-assist-widget .chat-bubble-content ul,
-.chat-assist-widget .chat-bubble-content ol {
-  margin-left: 1em !important;
-  padding-left: 1.2em !important;
-}
-
-.chat-assist-widget .chat-bubble-content li {
-  margin-bottom: 0.08em !important;
-  padding: 0 !important;
-  list-style-position: inside;
-}
-
-.chat-assist-widget .chat-bubble-content {
-  line-height: 1.5;
-}
-
-/* (Optional) Slightly smaller font for lists, if needed */
-.chat-assist-widget .chat-bubble-content ul,
-.chat-assist-widget .chat-bubble-content ol,
-.chat-assist-widget .chat-bubble-content li {
-  font-size: 14px !important;
-}
-
-
     `;
     document.head.appendChild(widgetStyles);
 
@@ -1165,21 +1051,7 @@
         return indicator;
     }
 
-    function cleanEmptyParagraphsAndBreaks(html) {
-        return html.replace(/<p>(\s|&nbsp;)*<\/p>/g, '').replace(/<br\s*\/?>/g, '').replace(/(\n\s*){2,}/g, '\n'); 
-    }
 
-    function cleanEmptyElements(html) {
-        // Remove <p> that are empty or only whitespace
-        html = html.replace(/<p>(\s|&nbsp;)*<\/p>/gi, '');
-        // Remove <br> tags
-        html = html.replace(/<br\s*\/?>/gi, '');
-        // Remove leading/trailing whitespace in <li>
-        html = html.replace(/<li>([\s\S]*?)<\/li>/gi, function(match, content) {
-            return `<li>${content.trim()}</li>`;
-        });
-        return html;
-    }
 
     // Function to convert URLs in text to clickable links
     function renderMarkdown(text) {
@@ -1190,7 +1062,7 @@
             dirty = window.DOMPurify.sanitize(dirty);
         }
         // Clean up after rendering
-        return cleanEmptyParagraphsAndBreaks(dirty);
+        return dirty;
     } else {
         return (text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
