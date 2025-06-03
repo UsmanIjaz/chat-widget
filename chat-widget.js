@@ -1216,10 +1216,6 @@
         if (chatBody) chatBody.classList.add('active');
     }
 
-    function removeExtraEmptyLines(str) {
-        return (str || "").replace(/\n{3,}/g, '\n\n').replace(/^\s*[\r\n]/gm, '').trim();
-    }
-
 
     // Validate email format
     function isValidEmail(email) {
