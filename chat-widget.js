@@ -725,6 +725,12 @@
           color: color-mix(in srgb, var(--chat-color-surface), black 20%);
         }
 
+        .chat-assist-widget .chat-textarea,
+        .chat-assist-widget .form-input {
+            font-size: 16px !important;
+        }
+
+
         
         @media (max-width: 768px) {
             .chat-assist-widget .chat-window {
@@ -1560,37 +1566,44 @@ async function submitMessage(messageText) {
         chatWindow.classList.add('visible');
     }
 
-    // Update visibility on window resize
-    window.addEventListener('resize', () => {
+   // Only auto-show on initial load if it's a large screen
+    window.addEventListener('DOMContentLoaded', () => {
         if (settings.openByDefault && isLargeScreen()) {
             chatWindow.classList.add('visible');
-        } else {
-            chatWindow.classList.remove('visible');
         }
     });
 
     sendButton.addEventListener('click', () => {
+    const messageText = messageTextarea.value.trim();
+    if (messageText && !isWaitingForResponse) {
+        submitMessage(messageText);
+        messageTextarea.value = '';
+        messageTextarea.style.height = 'auto';
+        messageTextarea.blur(); // 👈 hides keyboard
+    }
+});
+    
+    messageTextarea.addEventListener('input', autoResizeTextarea);
+    
+    messageTextarea.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
         const messageText = messageTextarea.value.trim();
         if (messageText && !isWaitingForResponse) {
             submitMessage(messageText);
             messageTextarea.value = '';
             messageTextarea.style.height = 'auto';
+            messageTextarea.blur(); // 👈 hides keyboard
         }
+    }
+});
+
+    messageTextarea.addEventListener('focus', () => {
+        setTimeout(() => {
+            messageTextarea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 300);
     });
-    
-    messageTextarea.addEventListener('input', autoResizeTextarea);
-    
-    messageTextarea.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault();
-            const messageText = messageTextarea.value.trim();
-            if (messageText && !isWaitingForResponse) {
-                submitMessage(messageText);
-                messageTextarea.value = '';
-                messageTextarea.style.height = 'auto';
-            }
-        }
-    });
+
     
     launchButton.addEventListener('click', () => {
         chatWindow.classList.toggle('visible');
